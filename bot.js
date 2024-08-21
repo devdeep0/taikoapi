@@ -3,10 +3,14 @@ const cheerio = require('cheerio');
 const express = require('express');
 const cors = require('cors');
 
-
 const app = express();
 
-app.use(cors()); // Allow all origins
+// Update CORS configuration
+app.use(cors({
+  origin: process.env.FRONTEND_URL || 'http://localhost:3000', // Replace with your frontend URL
+  methods: ['GET'],
+  credentials: true
+}));
 
 // Function to fetch table data
 async function fetchTableData() {
@@ -51,8 +55,8 @@ app.get('/bot', async (req, res) => {
     }
 });
 
-const PORT =  process.env.PORT || 3000; // or any other port you prefer
+const PORT = process.env.PORT || 3000;
 // Start the server
 app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`)
+    console.log(`Server running on port ${PORT}`);
 });
